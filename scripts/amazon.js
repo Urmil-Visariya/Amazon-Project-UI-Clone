@@ -49,8 +49,7 @@ products.forEach(product =>{
           </div>
 
           <button class="add-to-cart-button js-add-to-cart-button button-primary"
-          data-product-id="${product.id}"
-          data-product-name="${product.name}">
+          data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>`
@@ -83,9 +82,6 @@ function displayAddedMessage(button){
 document.querySelectorAll('.js-add-to-cart-button').
     forEach((button)=>{
         button.addEventListener('click',()=>{
-            // const productId = button.dataset.productId;
-            const {productId} = button.dataset;
-            const productName = button.dataset.productName;
 
             addToCart(button);
 
