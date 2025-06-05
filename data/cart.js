@@ -27,3 +27,13 @@ export function addToCart(button){
     });
   }
 }
+
+export function removeFromCart(productId){
+  const index = cart.findIndex((item) =>{
+    return productId === item.productId;
+    });
+
+    if(index != -1){
+        cart.splice(index,1);
+    }
+}
