@@ -1,3 +1,5 @@
+import { updateCheckoutCartQuantity } from '../scripts/utils/CheckoutCartQuantity.js';
+
 export const cart = JSON.parse(localStorage.getItem('cart')) || 
 [];
 
@@ -12,7 +14,7 @@ export function addToCart(button){
   let matchingItem;
 
   cart.forEach(cartItem =>{
-    if(cartItem.id === productId){
+    if(cartItem.productId === productId){
       matchingItem = cartItem;
     }
   });
@@ -37,5 +39,6 @@ export function removeFromCart(productId){
     if(index != -1){
         cart.splice(index,1);
     }
+    updateCheckoutCartQuantity();
     saveToStorage();
 }

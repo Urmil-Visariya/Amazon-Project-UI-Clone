@@ -1,6 +1,8 @@
 import { cart, removeFromCart } from '../data/cart.js';
 import { products } from '../data/products.js';
+import { calculateCartQuantity } from './utils/cartQuantity.js';
 import { formatCurrency } from './utils/money.js';
+import { updateCheckoutCartQuantity } from './utils/CheckoutCartQuantity.js';
 
 function renderCartSummary() {
     let cartSummaryHTML = '';
@@ -110,4 +112,6 @@ function setupDeleteHandlers(){
 
 renderCartSummary();
 setupDeleteHandlers();
+updateCheckoutCartQuantity();
+
 
