@@ -24,7 +24,8 @@ export function addToCart(button){
   } else{
     cart.push({
       productId:productId,
-      productQuantity:quantity
+      productQuantity:quantity,
+      deliveryOptionId: '1'
     });
   }
 
