@@ -140,16 +140,19 @@ function setupDeliveryOptionHandlers() {
         const { productId, deliveryOptionId } = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
         // console.log("Hello");
-        renderCartSummary();
-        setupDeleteHandlers();
-        setupDeliveryOptionHandlers();
+        renderOrderSummary();
       });
     });
 }
 
-renderCartSummary();
-setupDeleteHandlers();
-setupDeliveryOptionHandlers();
-updateCheckoutCartQuantity();
+function renderOrderSummary(){
+    renderCartSummary();
+    setupDeleteHandlers();
+    setupDeliveryOptionHandlers();
+    updateCheckoutCartQuantity();
+}
+
+renderOrderSummary();
+
 
 
