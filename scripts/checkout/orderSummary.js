@@ -15,6 +15,7 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 import { deliveryOptions } from '../../data/deliveryOptions.js';
 import { getDeliveryOptions } from '../../data/deliveryOptions.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 hello();
 
@@ -120,6 +121,7 @@ function setupDeleteHandlers() {
                 removeFromCart(productId);
                 const container = document.querySelector(`.js-cart-item-container-${productId}`);
                 container.remove();
+                renderPaymentSummary();
             });
         });
 }
@@ -133,6 +135,7 @@ function setupDeliveryOptionHandlers() {
         updateDeliveryOption(productId, deliveryOptionId);
         // console.log("Hello");
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
 }
