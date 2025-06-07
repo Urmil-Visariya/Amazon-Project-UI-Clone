@@ -6,18 +6,15 @@ import { calculateCartQuantity } from '../utils/cartQuantity.js';
 import formatCurrency from '../utils/money.js';
 
 //named export
-import { updateCheckoutCartQuantity } from '../utils/CheckoutCartQuantity.js';
-
 import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 
 //only import dayjs function
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
-import { deliveryOptions } from '../../data/deliveryOptions.js';
-import { getDeliveryOptions } from '../../data/deliveryOptions.js';
-import { renderPaymentSummary } from './paymentSummary.js';
+import { calculateDeliveryDate, deliveryOptions,getDeliveryOptions } from '../../data/deliveryOptions.js';
 
-hello();
+import { renderPaymentSummary } from './paymentSummary.js';
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 function renderCartSummary() {
     let cartSummaryHTML = '';
@@ -29,11 +26,7 @@ function renderCartSummary() {
         const deliveryOptionId = cartItem.deliveryOptionId;
         const deliveryOption = getDeliveryOptions(deliveryOptionId);
 
-        const today = dayjs();
-        const deliveryDate = today.add(deliveryOption.deliveryDays, 'day');
-        const dateString = deliveryDate.format('dddd, MMMM D');
-
-
+        const dateString = calculateDeliveryDate(deliveryOption);
 
         cartSummaryHTML +=
             `<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -91,9 +84,7 @@ function deliveryOptionsHtml(cartItem) {
     let html = '';
 
     deliveryOptions.forEach(deliveryOption => {
-        const today = dayjs();
-        const deliveryDate = today.add(deliveryOption.deliveryDays, 'day');
-        const dateString = deliveryDate.format('dddd, MMMM D');
+        const dateString = calculateDeliveryDate(deliveryOption);
 
         const priceString = deliveryOption.priceCents === 0 ?
             'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
@@ -127,8 +118,10 @@ function setupDeleteHandlers() {
             link.addEventListener('click', () => {
                 const productId = link.dataset.productId;
                 removeFromCart(productId);
-                const container = document.querySelector(`.js-cart-item-container-${productId}`);
-                container.remove();
+                // const container = document.querySelector(`.js-cart-item-container-${productId}`);
+                // container.remove();
+                renderCheckoutHeader();
+                renderOrderSummary();
                 renderPaymentSummary();
             });
         });
@@ -203,7 +196,7 @@ function setupDeliveryOptionHandlers() {
 }
 
 export function renderOrderSummary(){
-    updateCheckoutCartQuantity();
+    renderCheckoutHeader();
     renderCartSummary();
     setupDeleteHandlers();
     setupUpdateHandlers();
