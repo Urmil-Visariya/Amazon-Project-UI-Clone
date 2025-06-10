@@ -83,8 +83,8 @@ function displayAddedMessage(button){
 document.querySelectorAll('.js-add-to-cart-button').
     forEach((button)=>{
         button.addEventListener('click',()=>{
-
-            addToCart(button);
+            const productId = button.dataset.productId;
+            addToCart(productId);
 
             updateCartQuantity();
             

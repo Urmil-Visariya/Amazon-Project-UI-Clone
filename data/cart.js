@@ -1,5 +1,10 @@
-export const cart = JSON.parse(localStorage.getItem('cart')) || 
-[];
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage(){
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
+}
 
 function saveToStorage(){
   localStorage.setItem('cart',JSON.stringify(cart));
@@ -16,10 +21,14 @@ export function getCartItem(productId){
   return matchingItem;
 }
 
-export function addToCart(button){
-  // const productId = button.dataset.productId;
-  const {productId} = button.dataset;
-  const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+export function addToCart(productId){
+  const element = document.querySelector(`.js-quantity-selector-${productId}`);
+
+  let quantity = 1;
+  if(element){
+    quantity = Number(element.value);
+  }
+
   let matchingItem = getCartItem(productId);
 
   if(matchingItem){
