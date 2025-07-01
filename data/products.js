@@ -47,6 +47,18 @@ export class Clothing extends Product{
   }
 }
 
+export function getProduct(productId){
+  let matchingProduct;
+
+  products.forEach(product => {
+      if (product.id === productId) {
+          matchingProduct = product;
+      }
+  });
+  return matchingProduct;
+}
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -714,14 +726,24 @@ export const products = [
 });
 
 console.log(products);
+*/
 
-export function getProduct(productId){
-  let matchingProduct;
+export let products = [];
 
-  products.forEach(product => {
-      if (product.id === productId) {
-          matchingProduct = product;
+export function loadProducts(fun){
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load',()=>{
+    products = JSON.parse(xhr.response).map((productDetails)=>{
+      if(productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
       }
-  });
-  return matchingProduct;
+      return new Product(productDetails);
+    });
+    // console.log(xhr.response);
+    fun();
+  })
+  xhr.open('GET','https://supersimplebackend.dev/products');
+  xhr.send();
 }
+
